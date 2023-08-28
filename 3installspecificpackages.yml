@@ -2,12 +2,12 @@
 - hosts: all
   become: root
 
-  vars_prompt:
-    - name: "rhn_username"
-      prcompt: "Enter Red Hat Network username"
-    - name: "rhn_password"
-      prompt: "Enter Red Hat Networt password"
-      private: yes
+    #  vars_prompt:
+    #    - name: "rhn_username"
+    #      prcompt: "Enter Red Hat Network username"
+    #    - name: "rhn_password"
+    #      prompt: "Enter Red Hat Networt password"
+    #      private: yes
    
   tasks:
 

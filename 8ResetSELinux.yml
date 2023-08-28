@@ -1,0 +1,27 @@
+---
+- name: Setting system wide security 
+  hosts: all
+  become: root
+
+  tasks:
+    - name: Setting selinux to Enforcing 
+      selinux:
+        policy: targeted
+        state: enforcing
+
+    - name: Test whether SELinux is enabled
+      command: /usr/sbin/selinuxenabled
+      ignore_errors: yes
+      register: selinux_status
+
+    - name: Set SELinux context of custom ftp directory /var/lib/ftp/ to ftpd_u if SE Linux is enabled
+      sefcontext:
+        target: /var/lib/ftp/
+        setype: ftpd_u
+        state: present
+      register: ftp_dir
+      when: selinux_status.rc == 0
+
+    - name: Apply new SELinux context for custom FTP directory
+      command: restorecon -irv /var/lib/ftp/
+      when: ftp_dir.changed
