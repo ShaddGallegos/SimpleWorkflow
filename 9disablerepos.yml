@@ -1,0 +1,30 @@
+---
+- name: disable repos
+  hosts: {{ NODE0X }}
+  become: root
+
+  tasks:
+  - name: Get list of yum repos (to disable them temporarily)
+    ansible.builtin.command: yum -q repolist
+    register: _yum_repolist_output
+    changed_when: False
+
+  - name: Remove repository (and clean up left-over metadata)
+    yum_repository:
+      name: epel
+      state: absent
+    notify: yum-clean-metadata
+
+  - name: Install Docker
+    yum:
+      name: {{ items }}
+      state: present
+      enablerepo: []
+      disablerepo: "{{ _yum_repolist_output.stdout_lines[1:] | map('split',' ') | map('first') | list }}"
+    with_items:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+    - vim-enhanced
