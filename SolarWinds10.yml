@@ -1,9 +1,10 @@
 ---
 - name: SolarWinds Papertrail
-  hosts: all
+  hosts: localhost
 
-  tasks:
-    - name: Run a command to reg device with papertrail.
-      raw: wget -qO - --header="X-Papertrail-Token':' N54KLbED0gZgQXIfAem" \https://papertrailapp.com/destinations/28641001/setup.sh 
-      args:
-        executable: sudo /bin/bash
+  tasks: 
+    - name: Solarwinds Papertrail
+      register: "papertrail_script"
+      ansible.builtin.shell: |
+         wget -qO - --header=X-Papertrail-Token\:\ N54KLbED0gZgQXIfAem https://papertrailapp.com/destinations/28641001/setup.sh 
+
