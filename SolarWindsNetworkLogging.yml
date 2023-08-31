@@ -1,11 +1,12 @@
 ---
 - name: SolarWinds Papertrail Network 
-  hosts: all
+  hosts: cisco
 
   tasks: 
     - name: Solarwinds Papertrail Network Device Config
       register: "papertrail_script"
       ansible.builtin.shell: |
+        enable
         econfigure terminal
         logging host logs4.papertrailapp.com transport udp port 31452
         logging facility syslog
