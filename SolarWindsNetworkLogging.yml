@@ -1,0 +1,13 @@
+---
+- name: SolarWinds Papertrail Network 
+  hosts: localhost
+
+  tasks: 
+    - name: Solarwinds Papertrail Network Device Config
+      register: "papertrail_script"
+      ansible.builtin.shell: |
+        econfigure terminal
+        logging host logs4.papertrailapp.com transport udp port 31452
+        logging facility syslog
+        logging trap debugging
+        exit
