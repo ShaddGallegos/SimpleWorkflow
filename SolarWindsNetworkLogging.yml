@@ -7,7 +7,7 @@
       register: "papertrail_script"
       ansible.builtin.shell: |
         econfigure terminal
-        logging host logsN.papertrailapp.com transport udp port XXXXX
+        logging host logs4.papertrailapp.com transport udp port 31452
         logging facility syslog
         logging trap debugging
         exit
